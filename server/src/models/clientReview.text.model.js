@@ -1,4 +1,4 @@
-import mongoose, { Schema, SchemaType } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const clientTextReviewSchema = new Schema({
 
@@ -12,6 +12,9 @@ const clientTextReviewSchema = new Schema({
         lowercase:true,
         trim:true,
         required: true
+    },
+    companyName:{
+      type:String
     },
     avatar:{
         type:String,
