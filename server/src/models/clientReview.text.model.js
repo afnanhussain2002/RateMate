@@ -1,6 +1,7 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const clientTextReview = new Schema({
+const clientTextReviewSchema = new Schema({
 
 }, {timestamps:true})
 
+export const ClientText = mongoose.model("ClientText", clientTextReviewSchema)
