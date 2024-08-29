@@ -5,23 +5,43 @@ import asyncHandler from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 
-const registerUser = asyncHandler(async(req,res) =>{
- const {fullName, email, username, password} = req.body;
+/**
+ * Registers a new user.
+ * 
+ * This function handles the registration of a new user by performing the following steps:
+ * 1. Extracts user details (fullName, email, username, password) from the request body.
+ * 2. Validates that none of the required fields are empty.
+ * 3. Checks if a user with the same email or username already exists in the database.
+ * 4. Validates the presence of an avatar file in the request.
+ * 5. Uploads the avatar file to Cloudinary.
+ * 6. Creates a new user in the database with the provided details and the URL of the uploaded avatar.
+ * 7. Retrieves the newly created user from the database, excluding the password and refreshToken fields.
+ * 8. Returns a success response with the created user details.
+ * 
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @throws {ApiError} - Throws an error if any validation fails or if something goes wrong during user registration.
+ */
+const registerUser = asyncHandler(async(req, res) => {
+  // Extract user details from the request body
+  const { fullName, email, username, password } = req.body;
 
- if (
-    [fullName, email, username, password].some((field) => field?.trim() === "")
-  ) {
+  // Validate that none of the required fields are empty
+  if ([fullName, email, username, password].some((field) => field?.trim() === "")) {
     throw new ApiError(400, "All fields are required");
   }
-console.log(fullName, email, username, password);
+  console.log(fullName, email, username, password);
+
+  // Check if a user with the same email or username already exists
   const existUser = await User.findOne({
-    $or:[{username}, {email}]
-  })
+    $or: [{ username }, { email }]
+  });
 
   if (existUser) {
     throw new ApiError(409, "User with email or username already exists");
   }
 
+  // Validate the presence of an avatar file in the request
   const avatarLocalPath = req.file?.path;
   console.log(avatarLocalPath);
 
@@ -29,13 +49,15 @@ console.log(fullName, email, username, password);
     throw new ApiError(400, "Avatar file is required");
   }
 
-  const avatar = await uploadOnCloudinary(avatarLocalPath)
+  // Upload the avatar file to Cloudinary
+  const avatar = await uploadOnCloudinary(avatarLocalPath);
   console.log(avatar);
-  
+
   if (!avatar) {
     throw new ApiError(400, "Avatar file is required");
   }
 
+  // Create a new user in the database
   const user = await User.create({
     fullName,
     avatar: avatar.url,
@@ -44,21 +66,26 @@ console.log(fullName, email, username, password);
     username: username.toLowerCase(),
   });
 
+  // Retrieve the newly created user, excluding the password and refreshToken fields
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken"
   );
 
   if (!createdUser) {
-    throw new ApiError(500, "Something went wrong when register the user");
+    throw new ApiError(500, "Something went wrong when registering the user");
   }
 
+  // Return a success response with the created user details
   return res
-  .status(201)
-  .json(new ApiResponse(200, createdUser, "User registered Successfully"));
+    .status(201)
+    .json(new ApiResponse(200, createdUser, "User registered Successfully"));
 });
+
 
 const loginUser = asyncHandler(async(req,res) =>{
   const {username, email, password} = req.body
+
+
 })
 
 
