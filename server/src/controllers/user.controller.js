@@ -57,6 +57,10 @@ console.log(fullName, email, username, password);
   .json(new ApiResponse(200, createdUser, "User registered Successfully"));
 });
 
+const loginUser = asyncHandler(async(req,res) =>{
+  const {username, email, password} = req.body
+})
+
 
 
 
