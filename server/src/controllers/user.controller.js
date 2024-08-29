@@ -136,7 +136,7 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 
   // Validate the provided password
-  const isPasswordValid = await user.isPasswordCorrect(password);
+  const isPasswordValid = await user.isCorrectPassword(password);
 
   // If password is invalid, throw an error
   if (!isPasswordValid) {
