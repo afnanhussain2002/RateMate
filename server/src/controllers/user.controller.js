@@ -4,23 +4,39 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
-const generateAccessAndRefreshToken = async(userId) =>{
+/**
+ * Generates access and refresh tokens for a user.
+ * 
+ * @param {string} userId - The ID of the user for whom the tokens are being generated.
+ * @returns {Object} - An object containing the access token and refresh token.
+ * @throws {ApiError} - Throws an error if token generation fails.
+ */
+const generateAccessAndRefreshToken = async(userId) => {
   try {
-    const user = await User.findById(userId)
+    // Find the user by their ID
+    const user = await User.findById(userId);
+    
+    // Generate an access token for the user
     const accessToken = user.generateAccessToken();
+    
+    // Generate a refresh token for the user
     const refreshToken = user.generateRefreshToken();
-  
-    user.refreshToken = refreshToken
-    await user.save({validateBeforeSave:false})
-  
-    return {accessToken, refreshToken}
+    
+    // Save the refresh token to the user's record in the database
+    user.refreshToken = refreshToken;
+    await user.save({validateBeforeSave: false});
+    
+    // Return the generated tokens
+    return { accessToken, refreshToken };
   } catch (error) {
+    // Throw an error if something goes wrong during token generation
     throw new ApiError(
       500,
       "Something went wrong while generating refresh and access token"
     );
   }
 }
+
 
 
 /**
