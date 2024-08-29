@@ -115,51 +115,63 @@ const registerUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, createdUser, "User registered Successfully"));
 });
 
+// Function to handle user login
 const loginUser = asyncHandler(async (req, res) => {
+  // Extract username, email, and password from the request body
   const { username, email, password } = req.body;
 
+  // Check if either username or email is provided
   if (!(username || email)) {
     throw new ApiError(400, "username or email is required");
   }
 
+  // Find the user by username or email
   const user = await User.findOne({
     $or: [{ username }, { email }],
   });
 
+  // If user does not exist, throw an error
   if (!user) {
-    throw new ApiError(400, "user dose not exist");
+    throw new ApiError(400, "user does not exist");
   }
 
+  // Validate the provided password
   const isPasswordValid = await user.isPasswordCorrect(password);
 
+  // If password is invalid, throw an error
   if (!isPasswordValid) {
     throw new ApiError(401, "Invalid user credentials");
   }
 
+  // Generate access and refresh tokens for the user
   const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
     user._id
   );
 
+  // Retrieve the logged-in user's details excluding password and refreshToken
   const loggedInUser = await User.findById(user._id).select(
     "-password -refreshToken"
   );
 
+  // Set cookie options
   const options = {
-    httpOnly: true,
-    secure: true,
+    httpOnly: true, // Cookie is accessible only by the web server
+    secure: true,   // Cookie is sent only over HTTPS
   };
 
+  // Send response with user details and tokens, and set cookies
   return res
     .status(200)
     .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
     .json(new ApiResponse(200, {
-      user:loggedInUser,
+      user: loggedInUser,
       accessToken,
       refreshToken
     },
     "User login successfully"
   ));
 });
+
 
 export { registerUser, loginUser };
