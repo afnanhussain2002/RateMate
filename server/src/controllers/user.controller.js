@@ -4,6 +4,24 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
+const generateAccessAndRefreshToken = async(userId) =>{
+  try {
+    const user = await User.findById(userId)
+    const accessToken = user.generateAccessToken();
+    const refreshToken = user.generateRefreshToken();
+  
+    user.refreshToken = refreshToken
+    await user.save({validateBeforeSave:false})
+  
+    return {accessToken, refreshToken}
+  } catch (error) {
+    throw new ApiError(
+      500,
+      "Something went wrong while generating refresh and access token"
+    );
+  }
+}
+
 
 /**
  * Registers a new user.
@@ -88,6 +106,22 @@ const loginUser = asyncHandler(async(req,res) =>{
   if (!(username || email)) {
     throw new ApiError(400, "username or email is required");
   }
+
+  const user = await User.findOne({
+    $or:[{username}, {email}]
+  })
+
+  if (!user) {
+    throw new ApiError(400, "user dose not exist");
+  }
+
+  const isPasswordValid = await user.isPasswordCorrect(password)
+
+  if (!isPasswordValid) {
+    throw new ApiError(401, "Invalid user credentials");
+  }
+
+
  
 
 })
