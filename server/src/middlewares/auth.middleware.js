@@ -1,5 +1,6 @@
 import { ApiError } from "../utils/ApiError";
 import asyncHandler from "../utils/asyncHandler";
+import jwt from "jsonwebtoken"
 
 export const verifyJWT = asyncHandler(async(req,res) =>{
     try {
@@ -8,6 +9,8 @@ export const verifyJWT = asyncHandler(async(req,res) =>{
         if (!token) {
             throw new ApiError(401, "Unauthorized request")
         }
+
+        const decodeToken = jwt
     } catch (error) {
        throw new ApiError(401, error?.message || "Invalid access token") 
     }
