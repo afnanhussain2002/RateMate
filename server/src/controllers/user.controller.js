@@ -199,4 +199,8 @@ const logoutUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "User logged Out"));
 });
 
+const refreshAccessToken = asyncHandler(async(req,res) =>{
+  
+})
+
 export { registerUser, loginUser, logoutUser };
