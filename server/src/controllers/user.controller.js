@@ -156,7 +156,7 @@ const loginUser = asyncHandler(async (req, res) => {
   // Set cookie options
   const options = {
     httpOnly: true, // Cookie is accessible only by the web server
-    secure: true,   // Cookie is sent only over HTTPS
+    secure: true, // Cookie is sent only over HTTPS
   };
 
   // Send response with user details and tokens, and set cookies
@@ -164,26 +164,39 @@ const loginUser = asyncHandler(async (req, res) => {
     .status(200)
     .cookie("accessToken", accessToken, options)
     .cookie("refreshToken", refreshToken, options)
-    .json(new ApiResponse(200, {
-      user: loggedInUser,
-      accessToken,
-      refreshToken
-    },
-    "User login successfully"
-  ));
+    .json(
+      new ApiResponse(
+        200,
+        {
+          user: loggedInUser,
+          accessToken,
+          refreshToken,
+        },
+        "User login successfully"
+      )
+    );
 });
 
-const logoutUser = asyncHandler(async(req,res) =>{
+const logoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
     req.user._id,
     {
-      $unset:{
-        refreshToken:1
-      }
+      $unset: {
+        refreshToken: 1,
+      },
     },
-    {new:true}
-  )  
-})
+    { new: true }
+  );
 
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+  res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200, {}, "User logged Out"));
+});
 
 export { registerUser, loginUser, logoutUser };
