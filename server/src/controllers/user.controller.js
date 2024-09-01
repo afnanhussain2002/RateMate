@@ -205,6 +205,11 @@ const refreshAccessToken = asyncHandler(async(req,res) =>{
   if (!incomingRefreshToken) {
     throw new ApiError(401, "Unauthorized request")
   }
+  try {
+    
+  } catch (error) {
+    throw new ApiError(401, error.message || "Invalid Refresh Token")
+  }
 })
 
 export { registerUser, loginUser, logoutUser, refreshAccessToken };
