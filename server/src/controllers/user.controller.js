@@ -25,7 +25,7 @@ const generateAccessAndRefreshToken = async (userId) => {
     // Save the refresh token to the user's record in the database
     user.refreshToken = refreshToken;
     await user.save({ validateBeforeSave: false });
-
+console.log('Access token', accessToken,"refreshToken" ,refreshToken);
     // Return the generated tokens
     return { accessToken, refreshToken };
   } catch (error) {
