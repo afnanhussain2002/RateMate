@@ -12,13 +12,13 @@ const reviewBundleSchema = new Schema({
      textReviews:[
         {
             type:Schema.Types.ObjectId,
-            ref:"ClientText"
+            ref:"ClientTextReview"
         }
      ],
      videoReviews:[
         {
             type:Schema.Types.ObjectId,
-            ref:"ClientVideo"
+            ref:"ClientVideoReview"
         }
      ],
      owner:{

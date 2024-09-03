@@ -36,4 +36,4 @@ const clientTextReviewSchema = new Schema({
 
 }, {timestamps:true})
 
-export const ClientText = mongoose.model("ClientText", clientTextReviewSchema)
+export const ClientTextReview = mongoose.model("ClientTextReview", clientTextReviewSchema)

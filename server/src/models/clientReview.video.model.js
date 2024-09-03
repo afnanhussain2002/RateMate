@@ -38,4 +38,4 @@ const clientVideoReviewSchema = new Schema({
 
 }, {timestamps:true})
 
-export const ClientVideo = mongoose.model("ClientVideo", clientVideoReviewSchema)
+export const ClientVideoReview = mongoose.model("ClientVideoReview", clientVideoReviewSchema)
