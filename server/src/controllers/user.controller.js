@@ -303,6 +303,9 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, req.user, "User fetched successfully")); // Send a JSON response with the user data and a success message
 });
 
+const updateAccountDetails = asyncHandler(async(req,res)=>{
+  
+})
 
 export {
   registerUser,
