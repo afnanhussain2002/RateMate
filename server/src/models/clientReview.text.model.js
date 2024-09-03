@@ -16,10 +16,7 @@ const clientTextReviewSchema = new Schema({
     companyName:{
       type:String
     },
-    avatar:{
-        type:String,
-        required: true
-    },
+   
     rating:{
         type:Number,
         required:true
@@ -28,8 +25,9 @@ const clientTextReviewSchema = new Schema({
         type:String,
         required:true
     },
-    avatar:{
+    clientAvatar:{
         type:String,
+        required:true
     },
     reviewFor:{
         type: Schema.Types.ObjectId,
