@@ -206,35 +206,49 @@ const logoutUser = asyncHandler(async (req, res) => {
 });
 
 
+// Function to refresh the access token using an incoming refresh token
 const refreshAccessToken = asyncHandler(async (req, res) => {
+  // Retrieve the refresh token from cookies or request body
   const incomingRefreshToken =
     req.cookies.refreshToken || req.body.refreshToken;
 
+  // If no refresh token is provided, throw an unauthorized error
   if (!incomingRefreshToken) {
     throw new ApiError(401, "Unauthorized request");
   }
+
   try {
+    // Verify the incoming refresh token using the secret key
     const decodedToken = jwt.verify(
       incomingRefreshToken,
       process.env.REFRESH_TOKEN_SECRET
     );
 
+    // Find the user associated with the decoded token's user ID
     const user = await User.findById(decodedToken?._id);
 
+    // If no user is found, throw an invalid refresh token error
     if (!user) {
       throw new ApiError(401, "Invalid refresh token");
     }
+
+    // If the incoming refresh token does not match the user's stored refresh token, throw an error
     if (incomingRefreshToken !== user?.refreshToken) {
       throw new ApiError(401, "Refresh token is expired to used");
     }
+
+    // Options for setting cookies
     const options = {
-      httpOnly: true,
-      secure: true,
+      httpOnly: true, // Cookie is only accessible by the web server
+      secure: true,   // Cookie is only sent over HTTPS
     };
+
+    // Generate new access and refresh tokens
     const { accessToken, newRefreshToken } = await generateAccessAndRefreshToken(
       user._id
     );
 
+    // Set the new tokens as cookies and send a JSON response
     return res
       .status(200)
       .cookie("accessToken", accessToken, options)
@@ -246,11 +260,13 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
           refreshToken: newRefreshToken,
         },
         "Access token refreshed"
-      ))
+      ));
   } catch (error) {
+    // If any error occurs, throw an unauthorized error with the error message
     throw new ApiError(401, error.message || "Invalid Refresh Token");
   }
 });
+
 
 
 
