@@ -304,7 +304,7 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 });
 
 const updateAccountDetails = asyncHandler(async(req,res)=>{
-  
+
 })
 
 export {
@@ -314,4 +314,5 @@ export {
   refreshAccessToken,
   changeCurrentPassword,
   getCurrentUser,
+  updateAccountDetails
 };
