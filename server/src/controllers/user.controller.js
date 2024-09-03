@@ -303,24 +303,32 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, req.user, "User fetched successfully")); // Send a JSON response with the user data and a success message
 });
 
-const updateAccountDetails = asyncHandler(async(req,res)=>{
-  const {fullName, email} = req.body;
+// Function to update account details
+const updateAccountDetails = asyncHandler(async (req, res) => {
+  // Destructure fullName and email from the request body
+  const { fullName, email } = req.body;
 
+  // Check if either fullName or email is provided, if not throw an error
   if (!(fullName || email)) {
-    throw new ApiError (400, "Write something for update account details")
+    throw new ApiError(400, "Write something for update account details");
   }
 
+  // Find the user by ID and update the fullName and email fields
+  // The 'new' option returns the updated document
+  // The 'select' method excludes the password field from the returned user object
   const user = await User.findByIdAndUpdate(
     req.user?.id,
     {
       fullName,
       email
     },
-    {new:true}
-  ).select("-password")
+    { new: true }
+  ).select("-password");
 
-  return res.status(202).json(new ApiResponse(202, user, "Account details update successfully"))
-})
+  // Return a 202 status code with a success message and the updated user object
+  return res.status(202).json(new ApiResponse(202, user, "Account details update successfully"));
+});
+
 
 export {
   registerUser,
