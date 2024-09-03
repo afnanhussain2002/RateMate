@@ -295,6 +295,9 @@ const changeCurrentPassword = asyncHandler(async(req, res) => {
 });
 
 
+const getCurrentUser = asyncHandler(async(req,res) =>{
+  
+})
 
 
 
