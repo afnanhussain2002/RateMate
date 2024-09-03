@@ -178,27 +178,33 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 });
 
+// Handler to log out a user
 const logoutUser = asyncHandler(async (req, res) => {
+  // Find the user by their ID and unset the refreshToken field
   await User.findByIdAndUpdate(
-    req.user._id,
+    req.user._id, // User ID from the request object
     {
       $unset: {
-        refreshToken: 1,
+        refreshToken: 1, // Remove the refreshToken field from the user document
       },
     },
-    { new: true }
+    { new: true } // Return the updated document
   );
 
+  // Options for clearing cookies
   const options = {
-    httpOnly: true,
-    secure: true,
+    httpOnly: true, // Ensure the cookie is only accessible by the web server
+    secure: true, // Ensure the cookie is sent over HTTPS
   };
+
+  // Clear the accessToken and refreshToken cookies and send a response
   res
-    .status(200)
-    .clearCookie("accessToken", options)
-    .clearCookie("refreshToken", options)
-    .json(new ApiResponse(200, {}, "User logged Out"));
+    .status(200) // Set the status code to 200 (OK)
+    .clearCookie("accessToken", options) // Clear the accessToken cookie
+    .clearCookie("refreshToken", options) // Clear the refreshToken cookie
+    .json(new ApiResponse(200, {}, "User logged Out")); // Send a JSON response indicating the user has logged out
 });
+
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
   const incomingRefreshToken =
@@ -245,5 +251,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     throw new ApiError(401, error.message || "Invalid Refresh Token");
   }
 });
+
+
 
 export { registerUser, loginUser, logoutUser, refreshAccessToken };
