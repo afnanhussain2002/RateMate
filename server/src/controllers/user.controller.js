@@ -309,6 +309,17 @@ const updateAccountDetails = asyncHandler(async(req,res)=>{
   if (!(fullName || email)) {
     throw new ApiError (400, "Write something for update account details")
   }
+
+  const user = await User.findByIdAndUpdate(
+    req.user?.id,
+    {
+      fullName,
+      email
+    },
+    {new:true}
+  ).select("-password")
+
+  
 })
 
 export {
