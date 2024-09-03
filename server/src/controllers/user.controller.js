@@ -329,6 +329,10 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
   return res.status(202).json(new ApiResponse(202, user, "Account details update successfully"));
 });
 
+const updateUserAvatar = asyncHandler(async(req,res) =>{
+  
+})
+
 
 export {
   registerUser,
