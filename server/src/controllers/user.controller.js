@@ -205,7 +205,6 @@ const logoutUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "User logged Out")); // Send a JSON response indicating the user has logged out
 });
 
-
 // Function to refresh the access token using an incoming refresh token
 const refreshAccessToken = asyncHandler(async (req, res) => {
   // Retrieve the refresh token from cookies or request body
@@ -240,39 +239,39 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     // Options for setting cookies
     const options = {
       httpOnly: true, // Cookie is only accessible by the web server
-      secure: true,   // Cookie is only sent over HTTPS
+      secure: true, // Cookie is only sent over HTTPS
     };
 
     // Generate new access and refresh tokens
-    const { accessToken, newRefreshToken } = await generateAccessAndRefreshToken(
-      user._id
-    );
+    const { accessToken, newRefreshToken } =
+      await generateAccessAndRefreshToken(user._id);
 
     // Set the new tokens as cookies and send a JSON response
     return res
       .status(200)
       .cookie("accessToken", accessToken, options)
       .cookie("refreshToken", newRefreshToken, options)
-      .json(new ApiResponse(
-        200,
-        {
-          accessToken,
-          refreshToken: newRefreshToken,
-        },
-        "Access token refreshed"
-      ));
+      .json(
+        new ApiResponse(
+          200,
+          {
+            accessToken,
+            refreshToken: newRefreshToken,
+          },
+          "Access token refreshed"
+        )
+      );
   } catch (error) {
     // If any error occurs, throw an unauthorized error with the error message
     throw new ApiError(401, error.message || "Invalid Refresh Token");
   }
 });
 
-
 // Function to handle password change request
-const changeCurrentPassword = asyncHandler(async(req, res) => {
+const changeCurrentPassword = asyncHandler(async (req, res) => {
   // Extract old and new passwords from the request body
   const { oldPassword, newPassword } = req.body;
-  
+
   // Find the user by their ID, which is stored in the request object
   const user = await User.findById(req.user?._id);
 
@@ -286,21 +285,27 @@ const changeCurrentPassword = asyncHandler(async(req, res) => {
 
   // Update the user's password with the new password
   user.password = newPassword;
-  
+
   // Save the updated user object to the database without running validation
   await user.save({ validateBeforeSave: false });
 
   // Return a success response with a status code of 201
-  return res.status(201).json(new ApiResponse(201, {}, "Password change successfully"));
+  return res
+    .status(201)
+    .json(new ApiResponse(201, {}, "Password change successfully"));
 });
 
+const getCurrentUser = asyncHandler(async (req, res) => {
+  return res
+    .status(200)
+    .json(new ApiResponse(200, req.user, "User fetched successfully"));
+});
 
-const getCurrentUser = asyncHandler(async(req,res) =>{
-
-})
-
-
-
-
-
-export { registerUser, loginUser, logoutUser, refreshAccessToken, changeCurrentPassword, getCurrentUser };
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  refreshAccessToken,
+  changeCurrentPassword,
+  getCurrentUser,
+};
