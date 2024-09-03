@@ -330,7 +330,11 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 });
 
 const updateUserAvatar = asyncHandler(async(req,res) =>{
+  const avatarLocalPath = req.file?.path
 
+  if (!avatarLocalPath) {
+    throw new ApiError(401,"avatar is missing")
+  }
 })
 
 
