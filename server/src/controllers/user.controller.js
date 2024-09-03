@@ -319,7 +319,7 @@ const updateAccountDetails = asyncHandler(async(req,res)=>{
     {new:true}
   ).select("-password")
 
-  
+  return res.status(202).json(202, user, "Account details update successfully")
 })
 
 export {
