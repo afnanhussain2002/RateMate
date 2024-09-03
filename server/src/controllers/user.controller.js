@@ -320,44 +320,47 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
   const user = await User.findByIdAndUpdate(
     req.user?.id,
     {
-     $set:{
+      $set: {
         fullName,
-        email 
-     } 
+        email,
+      },
     },
     { new: true }
   ).select("-password");
 
   // Return a 202 status code with a success message and the updated user object
-  return res.status(202).json(new ApiResponse(202, user, "Account details update successfully"));
+  return res
+    .status(202)
+    .json(new ApiResponse(202, user, "Account details update successfully"));
 });
 
-const updateUserAvatar = asyncHandler(async(req,res) =>{
-  const avatarLocalPath = req.file?.path
+const updateUserAvatar = asyncHandler(async (req, res) => {
+  const avatarLocalPath = req.file?.path;
 
   if (!avatarLocalPath) {
-    throw new ApiError(401,"avatar is missing")
+    throw new ApiError(401, "avatar is missing");
   }
 
-  const avatar = await uploadOnCloudinary(avatarLocalPath)
+  const avatar = await uploadOnCloudinary(avatarLocalPath);
 
   if (!avatar.url) {
-    throw new ApiError(501, "Error while upload the avatar")
+    throw new ApiError(501, "Error while upload the avatar");
   }
 
   const user = await User.findByIdAndUpdate(
     req.user?._id,
     {
-       $set:{
-        avatar:avatar.url
-       }
+      $set: {
+        avatar: avatar.url,
+      },
     },
-    {new:true}
-  )
+    { new: true }
+  ).select("-password");
 
-
-})
-
+  res
+    .status(200)
+    .json(new ApiResponse(200, user, "Avatar update successfully"));
+});
 
 export {
   registerUser,
@@ -367,5 +370,5 @@ export {
   changeCurrentPassword,
   getCurrentUser,
   updateAccountDetails,
-  updateUserAvatar
+  updateUserAvatar,
 };
