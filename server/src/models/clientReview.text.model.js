@@ -29,6 +29,9 @@ const clientTextReviewSchema = new Schema({
         type:String,
         required:true
     },
+    attachFile:{
+        type:String,
+    },
     reviewFor:{
         type: Schema.Types.ObjectId,
         ref:"User"
