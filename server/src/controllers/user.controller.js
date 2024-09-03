@@ -1,3 +1,4 @@
+import { set } from "mongoose";
 import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -319,8 +320,10 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
   const user = await User.findByIdAndUpdate(
     req.user?.id,
     {
-      fullName,
-      email
+     $set:{
+        fullName,
+        email 
+     } 
     },
     { new: true }
   ).select("-password");
@@ -335,6 +338,24 @@ const updateUserAvatar = asyncHandler(async(req,res) =>{
   if (!avatarLocalPath) {
     throw new ApiError(401,"avatar is missing")
   }
+
+  const avatar = await uploadOnCloudinary(avatarLocalPath)
+
+  if (!avatar.url) {
+    throw new ApiError(501, "Error while upload the avatar")
+  }
+
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+       $set:{
+        avatar:avatar.url
+       }
+    },
+    {new:true}
+  )
+
+
 })
 
 
