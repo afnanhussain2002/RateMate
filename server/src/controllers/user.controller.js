@@ -295,11 +295,14 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     .json(new ApiResponse(201, {}, "Password change successfully"));
 });
 
+// Define an asynchronous function to get the current user
 const getCurrentUser = asyncHandler(async (req, res) => {
+  // Return a successful response with the user data and a success message
   return res
-    .status(200)
-    .json(new ApiResponse(200, req.user, "User fetched successfully"));
+    .status(200) // Set the HTTP status code to 200 (OK)
+    .json(new ApiResponse(200, req.user, "User fetched successfully")); // Send a JSON response with the user data and a success message
 });
+
 
 export {
   registerUser,
