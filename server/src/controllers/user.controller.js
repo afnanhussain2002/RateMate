@@ -296,11 +296,11 @@ const changeCurrentPassword = asyncHandler(async(req, res) => {
 
 
 const getCurrentUser = asyncHandler(async(req,res) =>{
-  
+
 })
 
 
 
 
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken, changeCurrentPassword };
+export { registerUser, loginUser, logoutUser, refreshAccessToken, changeCurrentPassword, getCurrentUser };
