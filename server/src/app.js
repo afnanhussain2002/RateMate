@@ -17,6 +17,7 @@ app.use(cookieParser())
 import userRouter from "./routes/user.routes.js";
 import requestReviewRouter from "./routes/requestReview.routes.js";
 import clientReviewTextRouter from "./routes/clientReview.text.routes.js";
+import clientReviewVideoRouter from "./routes/clientReview.video.routes.js";
 
 
 // routes declaration
@@ -24,5 +25,6 @@ import clientReviewTextRouter from "./routes/clientReview.text.routes.js";
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/send", requestReviewRouter)
 app.use("/api/v1/client", clientReviewTextRouter)
+app.use("/api/v1/client", clientReviewVideoRouter)
 
 export {app}
