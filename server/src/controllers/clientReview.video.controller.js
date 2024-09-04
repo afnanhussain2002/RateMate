@@ -22,6 +22,7 @@ const getVideoReview = asyncHandler(async (req, res) => {
     }
   
     const clientAvatarLocalPath = req.files?.clientAvatar[0].path;
+    const videoReviewLocalPath = req.files?.videoFile[0].path;
     let attachFileLocalPath;
   
     if (req.files.attachFile) {
