@@ -1,3 +1,4 @@
+import { ApiError } from "../utils/ApiError";
 import asyncHandler from "../utils/asyncHandler";
 
 
@@ -21,7 +22,9 @@ if (
   const clientAvatarLocalPath = req.files?.clientAvatar[0].path 
   const attachFileLocalPath = req.files?.attachFile[0].path
   
-  
+  if (!clientAvatarLocalPath) {
+    throw new ApiError(401, "Client avatar is required")
+  }
 
 
 
