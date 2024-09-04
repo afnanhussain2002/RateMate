@@ -12,6 +12,14 @@ const {requestId} = req.params
 
 const { fullName, email, companyName, rating, description }= req.body
 
+if (
+    [fullName, email, rating, description].some((field) => field?.trim() === "")
+  ) {
+    throw new ApiError(400, "Name, Email, Rating, Description fields are required");
+  }
+
+
+
 })
 
 export {getTextReview}
