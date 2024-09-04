@@ -1,5 +1,6 @@
 import { ApiError } from "../utils/ApiError";
 import asyncHandler from "../utils/asyncHandler";
+import { uploadOnCloudinary } from "../utils/cloudinary";
 
 
 const getTextReview = asyncHandler(async(req,res) =>{
@@ -27,13 +28,15 @@ if (
   }else{
     attachFileLocalPath =""
   }
-
-
   
   if (!clientAvatarLocalPath) {
     throw new ApiError(401, "Client avatar is required")
   }
 
+  const clientAvatar = await uploadOnCloudinary(clientAvatarLocalPath);
+  const attachFile = await uploadOnCloudinary(attachFileLocalPath)
+
+  
 
 
 
