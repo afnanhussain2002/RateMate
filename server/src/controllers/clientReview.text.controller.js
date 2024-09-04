@@ -1,4 +1,7 @@
+import { ClientTextReview } from "../models/clientReview.text.model";
+import userRouter from "../routes/user.routes";
 import { ApiError } from "../utils/ApiError";
+import { ApiResponse } from "../utils/ApiResponse";
 import asyncHandler from "../utils/asyncHandler";
 import { uploadOnCloudinary } from "../utils/cloudinary";
 
@@ -36,9 +39,23 @@ if (
   const clientAvatar = await uploadOnCloudinary(clientAvatarLocalPath);
   const attachFile = await uploadOnCloudinary(attachFileLocalPath)
 
-  
+  const textReview = await ClientTextReview.create({
+    fullName,
+    email,
+    companyName: companyName || '',
+    clientAvatar: clientAvatar.url,
+    attachFile: attachFile?.url || '',
+    description,
+    rating
+  })
 
+  const getReview = await ClientTextReview.findById(textReview._id)
 
+  if (!getReview) {
+    throw new ApiError(501, "Something went wrong when send review")
+  }
+
+  return res.status(200).json(new ApiResponse(200, getReview, "Review send successfully"))
 
 
 })
