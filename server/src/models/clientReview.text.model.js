@@ -34,7 +34,7 @@ const clientTextReviewSchema = new Schema({
     },
     reviewFor:{
         type: Schema.Types.ObjectId,
-        ref:"User"
+        ref:"RequestForReview"
     }
 
 }, {timestamps:true})
