@@ -16,7 +16,7 @@ const clientVideoReviewSchema = new Schema({
     companyName:{
       type:String
     },
-    avatar:{
+    clientAvatar:{
         type:String,
         required: true
     },
@@ -28,7 +28,7 @@ const clientVideoReviewSchema = new Schema({
         type:String,
         required:true
     },
-    avatar:{
+    attachFile:{
         type:String,
     },
     reviewFor:{
