@@ -18,6 +18,11 @@ if (
     throw new ApiError(400, "Name, Email, Rating, Description fields are required");
   }
 
+  const clientAvatarLocalPath = req.files?.clientAvatar[0].path 
+  const attachFileLocalPath = req.files?.attachFile[0].path
+  
+  
+
 
 
 })
