@@ -1,5 +1,4 @@
 import { ClientTextReview } from "../models/clientReview.text.model.js";
-import userRouter from "../routes/user.routes";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
@@ -46,7 +45,8 @@ if (
     clientAvatar: clientAvatar.url,
     attachFile: attachFile?.url || '',
     description,
-    rating
+    rating,
+    reviewFor:requestId
   })
 
   const getReview = await ClientTextReview.findById(textReview._id)
