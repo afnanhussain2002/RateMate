@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getTextReview } from "../controllers/clientReview.text.controller";
-import { upload } from "../middlewares/multer.middleware";
+import { getTextReview } from "../controllers/clientReview.text.controller.js";
+import { upload } from "../middlewares/multer.middleware.js";
 
 const clientReviewTextRouter = Router()
 

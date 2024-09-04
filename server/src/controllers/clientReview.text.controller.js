@@ -1,9 +1,9 @@
-import { ClientTextReview } from "../models/clientReview.text.model";
+import { ClientTextReview } from "../models/clientReview.text.model.js";
 import userRouter from "../routes/user.routes";
-import { ApiError } from "../utils/ApiError";
-import { ApiResponse } from "../utils/ApiResponse";
-import asyncHandler from "../utils/asyncHandler";
-import { uploadOnCloudinary } from "../utils/cloudinary";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
+import asyncHandler from "../utils/asyncHandler.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 
 const getTextReview = asyncHandler(async(req,res) =>{
