@@ -21,6 +21,6 @@ import requestReviewRouter from "./routes/requestReview.routes.js";
 // routes declaration
 
 app.use("/api/v1/users", userRouter)
-app.use("/api/v1/request-review", requestReviewRouter)
+app.use("/api/v1/send", requestReviewRouter)
 
 export {app}
