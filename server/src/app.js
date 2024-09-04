@@ -16,11 +16,13 @@ app.use(cookieParser())
 
 import userRouter from "./routes/user.routes.js";
 import requestReviewRouter from "./routes/requestReview.routes.js";
+import clientReviewTextRouter from "./routes/clientReview.text.routes.js";
 
 
 // routes declaration
 
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/send", requestReviewRouter)
+app.use("/api/v1/client", clientReviewTextRouter)
 
 export {app}
