@@ -1,5 +1,5 @@
 
-import { ClientTextReview } from "../models/clientReview.text.model.js";
+import { ClientVideoReview } from "../models/clientReview.video.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
@@ -37,7 +37,7 @@ const getVideoReview = asyncHandler(async (req, res) => {
     const clientAvatar = await uploadOnCloudinary(clientAvatarLocalPath);
     const attachFile = await uploadOnCloudinary(attachFileLocalPath);
   
-    const textReview = await ClientTextReview.create({
+    const videoReview = await ClientVideoReview.create({
       fullName,
       email,
       companyName: companyName || "",
@@ -48,7 +48,7 @@ const getVideoReview = asyncHandler(async (req, res) => {
       reviewFor: requestId,
     });
   
-    const getReview = await ClientTextReview.findById(textReview._id);
+    const getReview = await ClientVideoReview.findById(videoReview._id);
   
     if (!getReview) {
       throw new ApiError(501, "Something went wrong when send review");
