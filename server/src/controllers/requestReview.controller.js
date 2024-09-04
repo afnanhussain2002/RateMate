@@ -1,7 +1,7 @@
-import { RequestForReview } from "../models/requestReview.model";
-import { ApiError } from "../utils/ApiError";
-import { ApiResponse } from "../utils/ApiResponse";
-import asyncHandler from "../utils/asyncHandler";
+import { RequestForReview } from "../models/requestReview.model.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
+import asyncHandler from "../utils/asyncHandler.js";
 
 const requestForReview = asyncHandler(async (req, res) => {
   const { content } = req.body;

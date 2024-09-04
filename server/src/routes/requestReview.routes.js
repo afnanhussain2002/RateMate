@@ -1,6 +1,6 @@
 import Router from "express"
-import { verifyJWT } from "../middlewares/auth.middleware";
-import { requestForReview } from "../controllers/requestReview.controller";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { requestForReview } from "../controllers/requestReview.controller.js";
 
 const requestReviewRouter = Router()
 
