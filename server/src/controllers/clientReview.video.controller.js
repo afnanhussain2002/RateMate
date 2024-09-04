@@ -34,8 +34,13 @@ const getVideoReview = asyncHandler(async (req, res) => {
     if (!clientAvatarLocalPath) {
       throw new ApiError(401, "Client avatar is required");
     }
+
+    if (!videoReviewLocalPath) {
+        throw new ApiError(401, "video file is required")
+    }
   
     const clientAvatar = await uploadOnCloudinary(clientAvatarLocalPath);
+    const videoFile = await uploadOnCloudinary(videoReviewLocalPath)
     const attachFile = await uploadOnCloudinary(attachFileLocalPath);
   
     const videoReview = await ClientVideoReview.create({
@@ -44,6 +49,7 @@ const getVideoReview = asyncHandler(async (req, res) => {
       companyName: companyName || "",
       clientAvatar: clientAvatar.url,
       attachFile: attachFile?.url || "",
+      videoFile,
       description,
       rating,
       reviewFor: requestId,
