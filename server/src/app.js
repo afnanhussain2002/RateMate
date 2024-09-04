@@ -24,7 +24,7 @@ import clientReviewVideoRouter from "./routes/clientReview.video.routes.js";
 
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/send", requestReviewRouter)
-app.use("/api/v1/client", clientReviewTextRouter)
-app.use("/api/v1/client", clientReviewVideoRouter)
+app.use("/api/v1/clientText", clientReviewTextRouter)
+app.use("/api/v1/clientVideo", clientReviewVideoRouter)
 
 export {app}
