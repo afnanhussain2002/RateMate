@@ -20,11 +20,21 @@ if (
   }
 
   const clientAvatarLocalPath = req.files?.clientAvatar[0].path 
-  const attachFileLocalPath = req.files?.attachFile[0].path
+  let attachFileLocalPath 
+
+  if (req.files.attachFile) {
+    attachFileLocalPath = req.files?.attachFile[0].path
+  }else{
+    attachFileLocalPath =""
+  }
+
+
   
   if (!clientAvatarLocalPath) {
     throw new ApiError(401, "Client avatar is required")
   }
+
+
 
 
 
