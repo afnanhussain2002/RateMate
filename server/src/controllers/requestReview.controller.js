@@ -15,6 +15,12 @@ const requestForReview = asyncHandler(async(req,res) =>{
     sendBy:req.user
   })
 
+  const reviewRequest = await RequestForReview.findById(sendRequest._id)
+
+  if (!reviewRequest) {
+    throw new ApiError(501, "Something went wrong when send request")
+  }
+
 })
 
 export {requestForReview}
