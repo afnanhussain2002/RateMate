@@ -13,7 +13,10 @@ clientReviewVideoRouter.route("/video-review/:requestId").post(upload.fields([
         name:"attachFile",
         maxCount:1
     },
-    
+    {
+        name:"videoFile",
+        maxCount:1
+    }
 ]),getVideoReview)
 
 
