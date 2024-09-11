@@ -18,12 +18,18 @@ const getTextReview = asyncHandler(async (req, res) => {
       "Name, Email, Rating, Description fields are required"
     );
   }
+  console.log('client info----',fullName, email, companyName, rating, description );
+  
+  if (!req.files || !req.files.clientAvatar || !req.files.clientAvatar[0]) {
+    throw new ApiError(401, "Client avatar is required");
+  }
 
   const clientAvatarLocalPath = req.files?.clientAvatar[0].path;
+  console.log('Client avatar---', clientAvatarLocalPath);
   let attachFileLocalPath;
 
   if (req.files.attachFile) {
-    attachFileLocalPath = req.files?.attachFile[0].path;
+    attachFileLocalPath = req.files.attachFile[0].path;
   } else {
     attachFileLocalPath = "";
   }
