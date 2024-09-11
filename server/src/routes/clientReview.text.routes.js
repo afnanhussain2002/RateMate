@@ -4,7 +4,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 
 const clientReviewTextRouter = Router()
 
-clientReviewTextRouter.route("/text-review/:requestId").post(upload.fields([
+clientReviewTextRouter.route("/review/:requestId").post(upload.fields([
     {
         name:"clientAvatar",
         maxCount:1
