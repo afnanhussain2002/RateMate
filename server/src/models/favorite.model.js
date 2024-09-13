@@ -8,7 +8,11 @@ const favoriteSchema = new Schema({
      videoReview:[{
         type: Schema.Types.ObjectId,
         ref:"ClientVideo"
-     }]
+     }],
+     owner:{
+        type:Schema.Types.ObjectId,
+        ref:"User"
+     }
 },{timestamps:true})
 
 
