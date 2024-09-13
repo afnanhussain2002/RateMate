@@ -20,6 +20,13 @@ const favoriteTextReviews = asyncHandler(async(req,res) =>{
     return res.status(200).json(new ApiResponse(200, {}, "Text review deleted successfully"))
   }
 
+  const newFavorite = await Favorite({
+ textReview: textReviewId,
+ owner: req.user._id
+
+})
+await newFavorite.save()
+return res.status(200).json(new ApiResponse(200, newFavorite, "Text review added successfully"))
 
 })
 
